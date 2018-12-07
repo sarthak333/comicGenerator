@@ -9,7 +9,8 @@
   <body onload="randomCheck()">
     <div id="topbar">
       <div class="row">
-        <div class="col-3 perfectCenter topbarHeading brand">Commutatus
+        <div class="col-3 perfectCenter topbarHeading">
+          <img src="logo.jpg" class="brand">
         </div>  
         <div class="col-1 perfectCenter topbarHeading">
           <a href="#">Generator
@@ -34,11 +35,11 @@
           <div class="col-12">
             <div class="row">
               <div class="col-1">
-                <h3 id="number">1.
+                <h3 id="number">
                 </h3>
               </div>
-              <div class="col-6">
-                <h3 id="titleComic">Comic Title
+              <div class="col-11">
+                <h3 id="titleComic">
                 </h3>
               </div>
             </div>
@@ -47,14 +48,14 @@
         <div class="row">
           <div class="col-12">
             <div class="imageDiv">
-              <img id="comic" src="welcome.png" alt="Welcome. Click button to start" class="image">
+              <img id="comic" src="" class="image">
             </div>
           </div>
         </div>        
       </div>
     </section>
     <script>
-      let url,value,randomList,objString,count=1,localArray,arbitary;
+      let url,value,randomList,objString,count,localArray,arbitary,date;
       let comicHistory={
         day:"", month:"",year:"", viewTime:"",name:"",number:""};
       function randomCheck()
@@ -67,6 +68,7 @@
           if(lastIndex==randomList.length)
             lastIndex=0;
           value=randomList[lastIndex];
+          count=localStorage.indexCount;
         }
         else
         {
@@ -82,8 +84,9 @@
           arbitary=0;
           value=localArray[arbitary];
           arbitary++;
+          count=0;
         }
-        let date=new Date();
+        date=new Date();
         url="https://xkcd.now.sh/"+value;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -91,15 +94,14 @@
             var myObj = JSON.parse(this.responseText);
             document.getElementById('comic').src=myObj.img;
             comicHistory.name=myObj.safe_title;
-            comicHistory.day=date.getDate();
-            comicHistory.month=date.getMonth();
-            comicHistory.year=date.getFullYear();
+            comicHistory.date=new Date();
             comicHistory.number=lastIndex;
+            comicHistory.link=myObj.img;
             objString=JSON.stringify(comicHistory);
             localStorage['index'+lastIndex]=objString;
-            localStorage['indexcount']=count++;
+            localStorage['indexCount']=++count;
             document.getElementById('titleComic').innerHTML=myObj.safe_title;
-            document.getElementById('number').innerHTML=lastIndex+1+". ";
+            document.getElementById('number').innerHTML=lastIndex+1+".";
           }
         };
         xmlhttp.open("GET", url, true);

@@ -9,13 +9,14 @@
   <body onload="clone()">
     <div id="topbar">
       <div class="row">
-        <div class="col-3 perfectCenter topbarHeading brand">Commutatus
-        </div>  
-        <div class="col-1 perfectCenter topbarHeading inactive">
+        <div class="col-sm-3  perfectCenter topbarHeading">
+          <img src="logo.jpg" class="brand">
+        </div>
+        <div class="col-sm-1 perfectCenter topbarHeading inactive">
           <a href="index.html">Generator
           </a>
         </div>  
-        <div class="col-1 perfectCenter topbarHeading ">
+        <div class="col-sm-1 perfectCenter topbarHeading ">
           <a href="#">Archive
           </a>
         </div>  
@@ -27,46 +28,71 @@
       <div class="cardCollection">
         <div class="container">
           <div class="card" id="card">
-            <div class="row">
-              <div class="col-2 perfectCenter number">1.
-              </div>
-              <div class="col-5 centerVertical cardTitle">Comic Title
-              </div>
-              <div class="col-1 perfectCenter">
-                <div class="verticalLine">
-                  <div class="hidden">.
+            <a href="#" id="link">
+              <div class="row">
+                <div class="col-2 perfectCenter number" id="num">1.
+                </div>
+                <div class="col-5 centerVertical cardTitle" id="comicName">Comic Title
+                </div>
+                <div class="col-1 perfectCenter">
+                  <div class="verticalLine">
+                    <div class="hidden">.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3 centerVertical details">
+                  <div class="row">
+                    <div class="col-12 perfectCenter1" id="lastViewed">
+                      <p>Last Viewed
+                      </p>
+                    </div>
+                    <div class="col-12 perfectCenter1" id="date">
+                      <p>
+                      </p>
+                    </div>
+                    <div class="col-12 perfectCenter1" id="time">
+                      <p>21:45:00
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-3 centerVertical details">
-                <div class="row">
-                  <div class="col-12" id="lastViewed">
-                    <p>Last Viewed
-                    </p>
-                  </div>
-                  <div class="col-12" id="date">
-                    <p>21 December 2018
-                    </p>
-                  </div>
-                  <div class="col-12" id="time">
-                    <p>21:45:00
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </a>
           </div>
         </div>
       </div>
     </section>
     <script>
-      let i=0;
+      let i=0,newID,currentObjectNum,currentObject,original,dateTime;
       function clone()
       {
-        let original=document.getElementById("card");
-        let clone=original.cloneNode(true);
-        clone.id="card"+i++;
-        original.parentNode.appendChild(clone);
+        let i;
+        for(i=0;i<localStorage.indexCount;i++)
+        {
+          original=document.getElementById("card");
+          let clone=original.cloneNode(true);
+          clone.id="card"+i;
+          original.parentNode.appendChild(clone);
+          newID="card"+i;
+          let x=document.getElementById(newID).getElementsByClassName("number");
+          currentObjectNum="index"+i;
+          currentObject=JSON.parse(localStorage[currentObjectNum]);
+          dateTime=currentObject.date.split("T");
+          monthName=dateTime[0].split("-");
+          monthNames=[
+            "January", "February", "March",
+            "April", "May", "June",
+            "July", "August", "September",
+            "October", "November", "December"
+          ];
+          finalDate=monthName[2]+" "+monthNames[monthName[1]-1]+" "+monthName[0];
+          document.getElementById(newID).querySelector("#link").href=currentObject.link;
+          document.getElementById(newID).querySelector("#comicName").innerHTML=currentObject.name;
+          document.getElementById(newID).querySelector("#date").innerHTML=finalDate;
+          document.getElementById(newID).querySelector("#time").innerHTML=dateTime[1].split(".")[0];
+          document.getElementById(newID).querySelector("#num").innerHTML=i+1;
+        }
+        original.style.display="none";
       }
     </script>
   </body>
