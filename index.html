@@ -6,7 +6,7 @@
     <link href="style.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
   </head>
-  <body onload="randomCheck()">
+  <body onload="check()">
     <div id="topbar">
       <div class="row">
         <div class="col-3 perfectCenter topbarHeading">
@@ -27,10 +27,10 @@
     <section id="canvas">
       <div class="row">
         <div class="col-12 perfectCenter buttonDiv">
-          <input type="button" class="button" value="Generate" onclick="randomCheck()">
+          <input type="button" class="button" value="Generate" onclick="check()">
         </div>
       </div>
-      <div class="centerHorizontal">
+      <div class="centerHorizontal" id="comic1">
         <div class="row title">
           <div class="col-12">
             <div class="row">
@@ -48,66 +48,143 @@
         <div class="row">
           <div class="col-12">
             <div class="imageDiv">
-              <img id="comic" src="" class="image">
+              <img id="comic" src="loader.gif" class="image comic">
             </div>
           </div>
         </div>        
       </div>
-    </section>
-    <script>
-      let url,value,randomList,objString,count,localArray,arbitary,date;
-      let comicHistory={
-        day:"", month:"",year:"", viewTime:"",name:"",number:""};
-      function randomCheck()
-      {
-        if(localStorage.array)
-        {
-          lastIndex=localStorage.lastIndex;
-          lastIndex++;
-          randomList=localStorage.array.split(',');
-          if(lastIndex==randomList.length)
-            lastIndex=0;
-          value=randomList[lastIndex];
-          count=localStorage.indexCount;
-        }
-        else
-        {
-          lastIndex=0;
-          localArray=Array.from({
-            length: 999}
-                                ,(x,i) => i+1);
-          localArray.sort(function(){
-            return Math.random()-Math.random() }
+        
+        <div class="centerHorizontal" id="comic2">
+        <div class="row title">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-1">
+                <h3 id="number">
+                </h3>
+              </div>
+              <div class="col-11">
+                <h3 id="titleComic">
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="imageDiv">
+              <img id="comic" src="loader.gif" class="image comic">
+            </div>
+          </div>
+        </div>        
+      </div>
+        <div class="centerHorizontal" id="comic3">
+        <div class="row title">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-1">
+                <h3 id="number">
+                </h3>
+              </div>
+              <div class="col-11">
+                <h3 id="titleComic">
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="imageDiv">
+              <img id="comic" src="loader.gif" class="image comic">
+            </div>
+          </div>
+        </div>        
+      </div>
+        <div class="centerHorizontal" id="comic4">
+        <div class="row title">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-1">
+                <h3 id="number">
+                </h3>
+              </div>
+              <div class="col-11">
+                <h3 id="titleComic" class="ComicTitle">
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="imageDiv">
+              <img id="comic" src="loader.gif" class="image comic">
+            </div>
+          </div>
+        </div>        
+      </div>
+      </section>
+ <script>
+      let exists,randomArray,index,myObj,i,ind,clone1,ind1,ii,arrayInfo,month;
+     
+     
+     function check()
+     {
+         if(localStorage.database)
+             {
+             index=localStorage.lastIndex;
+                 arrayInfo=localStorage.arrayInfo;
+                 randomArray=localStorage.randomArray.split(',');
+             }
+         else
+             {
+                 
+                 index=0;
+                randomArray=Array.from({length: 999}, (x,i) => i+1);
+                  randomArray.sort(function(){return Math.random()-Math.random() }
                          );
-          localStorage.array=localArray;
-          localStorage.lastIndex=0;
-          arbitary=0;
-          value=localArray[arbitary];
-          arbitary++;
-          count=0;
-        }
-        date=new Date();
-        url="https://xkcd.now.sh/"+value;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-          if (this.readyState==4 && this.status==200) {
-            var myObj = JSON.parse(this.responseText);
-            document.getElementById('comic').src=myObj.img;
-            comicHistory.name=myObj.safe_title;
-            comicHistory.date=new Date();
-            comicHistory.number=lastIndex;
-            comicHistory.link=myObj.img;
-            objString=JSON.stringify(comicHistory);
-            localStorage['index'+lastIndex]=objString;
-            localStorage['indexCount']=++count;
-            document.getElementById('titleComic').innerHTML=myObj.safe_title;
-            document.getElementById('number').innerHTML=lastIndex+1+".";
-          }
-        };
-        xmlhttp.open("GET", url, true);
-        xmlhttp.send();
-        localStorage.lastIndex=lastIndex;
-      }
-    </script>
-  </body>
+                 localStorage.randomArray=randomArray;
+             }
+         generate();
+     }
+     
+     function generate()
+     {
+   ii=0;
+for(i = 1;i <=4;i++){
+    ind=index;
+
+        url="https://xkcd.now.sh/"+randomArray[index];
+          fetch(url)
+          .then((resp) => resp.json())
+          .then(function(myObj)
+                {
+                    ii++;
+              date=new Date();
+              month=date.getMonth()
+                     comic=document.getElementById("comic"+ii);
+              comic.querySelector("#comic").src="loader.gif";
+              comic.querySelector("#number").innerHTML=ind-2;
+              ind1=ind-3;
+           arrayInfo+= date+"@"+myObj.safe_title+"@"+myObj.img+"@"+month+",";
+             ind++; 
+              comic.querySelector("#titleComic").innerHTML=myObj.safe_title;
+              comic.querySelector("#comic").src=myObj.img;
+              localStorage.database=1;
+              localStorage.arrayInfo=arrayInfo;
+             
+              
+                    
+                 });
+        
+index++;
+  
+}
+        
+              localStorage.lastIndex=index;   
+     }
+     
+     
+      </script>
+    </body>
 </html>
