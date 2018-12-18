@@ -62,33 +62,28 @@
         </div>
       </div>
     </section>
-      
-      <script>
-      
-          
-          let arrayInfo1,elementInfo,arrayDate,date,time,months=["January","February","March","April","May","June","July","August","September","October","November","December"];
-          
-          
-          function clone()
-          {
-              arrayInfo1=localStorage.arrayInfo
-              original=document.getElementById('card');
-              arrayInfo1=localStorage.arrayInfo.split(',');
-              for(let i=0;i<arrayInfo1.length-1;i++)
-                  {
-                   clone=original.cloneNode(true);
-                      clone.id="card"+i;
-                      elementInfo=arrayInfo1[i].split("@");
-                      clone.querySelector("#num").innerHTML=i+1;
- clone.querySelector("#comicName").innerHTML=elementInfo[1];
-                     arrayDate=elementInfo[0].split(" ");
-                      date=arrayDate[2]+" "+months[elementInfo[3]]+" "+arrayDate[3];
-                         clone.querySelector("#date").innerHTML=date;
-                      clone.querySelector("#time").innerHTML=arrayDate[4];
-                      clone.querySelector("#link").href=elementInfo[2];
-                      original.parentNode.appendChild(clone);
-                  }
-          }          
-      </script>
+    <script>
+      let arrayInfo1,elementInfo,arrayDate,date,time,months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+      function clone()
+      {
+        arrayInfo1=localStorage.arrayInfo
+        original=document.getElementById('card');
+        arrayInfo1=localStorage.arrayInfo.split(',');
+        for(let i=0;i<arrayInfo1.length-1;i++)
+        {
+          clone=original.cloneNode(true);
+          clone.id="card"+i;
+          elementInfo=arrayInfo1[i].split("@");
+          clone.querySelector("#num").innerHTML=i+1;
+          clone.querySelector("#comicName").innerHTML=elementInfo[1];
+          arrayDate=elementInfo[0].split(" ");
+          date=arrayDate[2]+" "+months[elementInfo[3]]+" "+arrayDate[3];
+          clone.querySelector("#date").innerHTML=date;
+          clone.querySelector("#time").innerHTML=arrayDate[4];
+          clone.querySelector("#link").href=elementInfo[2];
+          original.parentNode.appendChild(clone);
+        }
+      }
+    </script>
   </body>
 </html>

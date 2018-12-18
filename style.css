@@ -102,7 +102,6 @@ height: 20vh !important;
 }
 .imageDiv{
 box-shadow: 2px 2px 7px #666666;
-
 height: 50vh !important;
 width: auto;
 }
@@ -194,8 +193,8 @@ margin-top: 2%;
 }
 #comic2, #comic3, #comic4
 {
-    margin-top:10%;
+margin-top:10%;
 }
 #comic0,#card{
-    display: none;
+display: none;
 }
