@@ -6,7 +6,7 @@
     <link href="style.css" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
   </head>
-  <body onload="check()">
+  <body onload="check()" onscroll="scroll()">
     <div id="topbar">
       <div class="row">
         <div class="col-3 perfectCenter topbarHeading">
@@ -30,7 +30,7 @@
           <input type="button" class="button" value="Generate" onclick="check()">
         </div>
       </div>
-      <div class="centerHorizontal" id="comic1">
+      <div class="centerHorizontal" id="comic0">
         <div class="row title">
           <div class="col-12">
             <div class="row">
@@ -40,75 +40,6 @@
               </div>
               <div class="col-11">
                 <h3 id="titleComic">
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="imageDiv">
-              <img id="comic" src="loader.gif" class="image comic">
-            </div>
-          </div>
-        </div>        
-      </div>
-      <div class="centerHorizontal" id="comic2">
-        <div class="row title">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-1">
-                <h3 id="number">
-                </h3>
-              </div>
-              <div class="col-11">
-                <h3 id="titleComic">
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="imageDiv">
-              <img id="comic" src="loader.gif" class="image comic">
-            </div>
-          </div>
-        </div>        
-      </div>
-      <div class="centerHorizontal" id="comic3">
-        <div class="row title">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-1">
-                <h3 id="number">
-                </h3>
-              </div>
-              <div class="col-11">
-                <h3 id="titleComic">
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12">
-            <div class="imageDiv">
-              <img id="comic" src="loader.gif" class="image comic">
-            </div>
-          </div>
-        </div>        
-      </div>
-      <div class="centerHorizontal" id="comic4">
-        <div class="row title">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-1">
-                <h3 id="number">
-                </h3>
-              </div>
-              <div class="col-11">
-                <h3 id="titleComic" class="ComicTitle">
                 </h3>
               </div>
             </div>
@@ -124,7 +55,12 @@
       </div>
     </section>
     <script>
-      let exists,randomArray,index,myObj,i,ind,clone1,ind1,ii,arrayInfo,month;
+      let exists,randomArray,index,myObj,i,ind,clone,original,ind1,ii=0,arrayInfo,month;
+      function scroll()
+      {
+        if(Math.round(window.innerHeight+window.scrollY)==document.body.offsetHeight)
+          generate();
+      }
       function check()
       {
         if(localStorage.database)
@@ -148,7 +84,6 @@
       }
       function generate()
       {
-        ii=0;
         for(i = 1;i <=4;i++){
           ind=index;
           url="https://xkcd.now.sh/"+randomArray[index];
@@ -157,16 +92,21 @@
             .then(function(myObj)
                   {
             ii++;
+            original=document.getElementById("comic0");
+            clone=original.cloneNode(true);
+            clone.querySelector("#comic").src="loader.gif";
+            clone.id="comic"+ii;
+            clone.style.marginTop="50px";
+            original.parentNode.appendChild(clone);
             date=new Date();
             month=date.getMonth()
-            comic=document.getElementById("comic"+ii);
-            comic.querySelector("#comic").src="loader.gif";
-            comic.querySelector("#number").innerHTML=ind-2;
+            
+            clone.querySelector("#number").innerHTML=ind-2;
             ind1=ind-3;
             arrayInfo+= date+"@"+myObj.safe_title+"@"+myObj.img+"@"+month+",";
             ind++;
-            comic.querySelector("#titleComic").innerHTML=myObj.safe_title;
-            comic.querySelector("#comic").src=myObj.img;
+            clone.querySelector("#titleComic").innerHTML=myObj.safe_title;
+            clone.querySelector("#comic").src=myObj.img;
             localStorage.database=1;
             localStorage.arrayInfo=arrayInfo;
           }
